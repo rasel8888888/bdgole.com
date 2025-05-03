@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Galactic Chat 4000</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      transition: background 0.5s, color 0.5s;
+      background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
+      color: white;
+      overflow: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: url('https://media.giphy.com/media/3o7TKtnuHOHHUjR38Y/giphy.gif') repeat;
+      background-size: cover;
+      opacity: 0.1;
+      z-index: -1;
+      animation: stars 60s linear infinite;
+    }
+
+    @keyframes stars {
+      0% { background-position: 0 0; }
+      100% { background-position: 1000px 1000px; }
+    }
+
+    .floating-hearts, .floating-planets, .floating-loveplanes, .floating-emoji-flame, .floating-quantum {
+      position: fixed;
+      width: 100vw;
+      height: 100vh;
+      top: 0;
+      left: 0;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .floating-hearts span, .floating-planets span, .floating-loveplanes span, .floating-emoji-flame span, .floating-quantum span {
+      position: absolute;
+      animation: float 20s linear infinite;
+      font-size: 24px;
+      user-select: none;
+    }
+
+    @keyframes float {
+      0% { transform: translateY(100vh) scale(0.5); opacity: 0; }
+      100% { transform: translateY(-10vh) scale(1.2); opacity: 1; }
+    }
+
+    .chat-container {
+      max-width: 600px;
+      margin: 20px auto;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 15px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.7);
+      padding: 20px;
+      backdrop-filter: blur(10px);
+      position: relative;
+      z-index: 2;
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+
+    .chat-box {
+      height: 300px;
+      overflow-y: auto;
+      background: rgba(0,0,0,0.3);
+      padding: 10px;
+      border-radius: 10px;
+      margin-bottom: 15px;
+    }
+
+    .input-area {
+      display: flex;
+      gap: 10px;
+    }
+
+    .input-area input {
+      flex: 1;
+      padding: 10px;
+      border-radius: 10px;
+      border: none;
+      font-size: 1rem;
+    }
+
+    .input-area button {
+      padding: 10px 15px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      background: linear-gradient(145deg, #00f0ff, #aaffff);
+      color: #000;
+      font-weight: bold;
+      box-shadow: 0 5px 15px rgba(0,255,255,0.4);
+      transition: transform 0.2s, box-shadow 0.3s ease;
+    }
+
+    .input-area button:hover {
+      transform: scale(1.1);
+      box-shadow: 0 5px 30px rgba(255, 255, 255, 0.6);
+    }
+
+    #backgroundSelector {
+      margin-top: 10px;
+      padding: 5px;
+      border-radius: 5px;
+      background-color: rgba(0, 0, 0, 0.6);
+      color: white;
+    }
+  </style>
+</head>
+<body>
+  <div class="floating-hearts" id="floatingHearts"></div>
+  <div class="floating-planets" id="floatingPlanets"></div>
+  <div class="floating-loveplanes" id="floatingLovePlanes"></div>
+  <div class="floating-emoji-flame" id="floatingFlame"></div>
+  <div class="floating-quantum" id="floatingQuantum"></div>
+  <div class="chat-container">
+    <div class="header">
+      <h1>🌌 Galactic Chat 4000</h1>
+      <div>
+        <button id="themeToggle">🌓 Theme</button>
+        <select id="backgroundSelector">
+          <option value="galaxy">🌌 Galaxy</option>
+          <option value="sunset">🌇 Sunset</option>
+          <option value="ocean">🌊 Ocean</option>
+          <option value="cyber">💻 Cyber Grid</option>
+          <option value="romantic">💖 Romantic</option>
+          <option value="matrix">🟢 Matrix</option>
+          <option value="hacker">💻 Hacker Mode</option>
+          <option value="universe">🪐 Universe</option>
+          <option value="bisti">✈️ Bisti Love Jet</option>
+          <option value="firelove">🔥 FireLove</option>
+          <option value="quantum">🧬 Quantum Future</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="chat-box" id="chatBox">
+      <p>👋 Welcome to the Future of Chatting! 💫</p>
+    </div>
+
+    <div class="input-area">
+      <input type="text" id="userInput" placeholder="Type your message here... 💬" />
+      <button id="sendBtn">🚀</button>
+      <button id="voiceBtn">🎤</button>
+    </div>
+  </div>
+
+  <script>
+    const backgrounds = {
+      galaxy: "linear-gradient(to right, #0f2027, #203a43, #2c5364)",
+      sunset: "linear-gradient(to right, #ff9966, #ff5e62)",
+      ocean: "linear-gradient(to right, #00c6ff, #0072ff)",
+      cyber: "linear-gradient(to right, #232526, #414345)",
+      romantic: "linear-gradient(to right, #f857a6, #ff5858)",
+      matrix: "linear-gradient(to right, #000000, #00ff00)",
+      hacker: "linear-gradient(to right, #0f0f0f, #0a0a0a)",
+      universe: "linear-gradient(to right, #360033, #0b8793)",
+      bisti: "linear-gradient(to right, #ffe5ec, #ffc2d1, #ffb3c6, #ff8fab, #fb6f92)",
+      firelove: "linear-gradient(to right, #ff4e50, #f9d423)",
+      quantum: "linear-gradient(to right, #1e3c72, #2a5298, #0f2027, #203a43)"
+    };
+
+    const selector = document.getElementById('backgroundSelector');
+    selector.addEventListener('change', () => {
+      document.body.style.background = backgrounds[selector.value];
+      document.body.style.color = selector.value === 'matrix' || selector.value === 'hacker' ? '#0f0' : '#fff';
+
+      if (selector.value === 'bisti') {
+        createFloatingEmojis('floatingLovePlanes', ['✈️','💘','💝','💌','❤️‍🔥'], 15);
+      } else {
+        document.getElementById('floatingLovePlanes').innerHTML = '';
+      }
+
+      if (selector.value === 'firelove') {
+        createFloatingEmojis('floatingFlame', ['😢','🔥','😢','🔥','😅','🔥'], 20);
+      } else {
+        document.getElementById('floatingFlame').innerHTML = '';
+      }
+
+      if (selector.value === 'quantum') {
+        createFloatingEmojis('floatingQuantum', ['🧬','🔮','⚛️','🪐','✨','🌌'], 25);
+      } else {
+        document.getElementById('floatingQuantum').innerHTML = '';
+      }
+    });
+
+    function createFloatingEmojis(containerId, emojis, count) {
+      const container = document.getElementById(containerId);
+      container.innerHTML = '';
+      for (let i = 0; i < count; i++) {
+        const span = document.createElement('span');
+        span.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+        span.style.left = Math.random() * 100 + 'vw';
+        span.style.animationDuration = 10 + Math.random() * 20 + 's';
+        span.style.fontSize = 18 + Math.random() * 24 + 'px';
+        container.appendChild(span);
+      }
+    }
+
+    createFloatingEmojis('floatingHearts', ['❤️','💖','💘','💞','💕','💓'], 20);
+    createFloatingEmojis('floatingPlanets', ['🌍','🌎','🌌','🪐','⭐','🌠','✨'], 15);
+
+    document.getElementById("themeToggle").addEventListener("click", () => {
+      document.body.classList.toggle("dark-mode");
+    });
+  </script>
+</body>
+</html>  
